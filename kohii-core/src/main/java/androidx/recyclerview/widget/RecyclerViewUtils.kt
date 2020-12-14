@@ -32,13 +32,16 @@ internal object RecyclerViewUtils {
   }
 
   fun fetchItemViewParams(target: View): RecyclerView.LayoutParams? {
-    var params = target.layoutParams
-    var parent = target.parent
-    while (params != null && params !is RecyclerView.LayoutParams) {
-      params = (parent as? View)?.layoutParams
-      parent = parent.parent
+    runCatching {
+      var params = target.layoutParams
+      var parent = target.parent
+      while (params != null && params !is RecyclerView.LayoutParams) {
+        params = (parent as? View)?.layoutParams
+        parent = parent.parent
+      }
+      return params as RecyclerView.LayoutParams?
     }
-    return params as RecyclerView.LayoutParams?
+    return null
   }
 
   fun fetchViewHolder(target: View): ViewHolder? {
